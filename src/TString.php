@@ -26,12 +26,14 @@
 
 namespace PTK\TType;
 
+use PTK\Exceptlion\Value\InvalidValueException;
+
 /**
  * TString: string
  *
  * @author Everton
  */
-class TString implements TMixed {
+class TString implements TScalar {
 
     /**
      *
@@ -95,10 +97,11 @@ class TString implements TMixed {
      * @todo Alterar a substiuição para suportar caractere de escape para { e }
      */
     public function template(TDict $data): TString {
+        $str = $this->get();
         foreach ($data as $key => $value){
-            $this->data = str_replace('{'.$key.'}', $value, $this->get());
+            $str = str_replace('{'.$key.'}', $value, $str);
         }
-        return $this;
+        return new TString($str);
     }
     
     /**
@@ -110,8 +113,7 @@ class TString implements TMixed {
      * @see TString::template()
      */
     public function format(TList $data): TString {
-        $this->data = sprintf($this->get(), ...$data);
-        return $this;
+        return new TString(sprintf($this->get(), ...$data));
     }
     
     /**
@@ -135,9 +137,7 @@ class TString implements TMixed {
     public function merge(TString ...$pieces): TString
     {
         
-        $this->join(new TString(''), ...$pieces);
-        
-        return $this;
+        return new TString(join(new TString(''), [$this->get(), ...$pieces]));
     }
     
     /**
@@ -149,8 +149,49 @@ class TString implements TMixed {
      */
     public function join(TString $glue, TString ...$pieces): TString
     {
-        $this->data = \join($glue, [$this->data, ...$pieces]);
+        return new TString(\join($glue, [$this->get(), ...$pieces]));
+    }
+    
+    public function toFloat(TString $decimalSeparator): TFloat {
         
-        return $this;
+        if($decimalSeparator->get() !== '.' && $decimalSeparator->get() !== ','){
+            throw new InvalidValueException($decimalSeparator, '.|,');
+        }
+        
+        $decimalSeparatorFound = false;
+        $number = '';
+        foreach ($this->split() as $chunk){
+            if(preg_match('/[0-9]/', $chunk) === 1){
+                $number .= $chunk;
+            }
+            
+            if($chunk === $decimalSeparator->get() && $decimalSeparatorFound === false){
+                $number .= '.';
+                $decimalSeparatorFound = true;
+            }
+        }
+        
+        return new TFloat((float) $number);
+    }
+    
+    public function toInt(): TInt{
+        
+        $number = '';
+        foreach ($this->split() as $chunk){
+            if(preg_match('/[0-9]/', $chunk) === 1){
+                $number .= $chunk;
+            }
+        }
+        
+        return new TInt((int) $number);
+    }
+    
+    public function toNumber(?TString $decimalSeparator = null): TNumber{
+        
+        if(is_null($decimalSeparator)){
+            return $this->toInt();
+        }
+        
+        return $this->toFloat($decimalSeparator);
     }
 }

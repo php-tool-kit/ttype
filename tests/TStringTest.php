@@ -2,6 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 use PTK\TType\TDict;
+use PTK\TType\TFloat;
+use PTK\TType\TInt;
 use PTK\TType\TList;
 use PTK\TType\TString;
 
@@ -96,14 +98,56 @@ class TStringTest extends TestCase {
     
     public function testMerge() {
         $obj = new TString('hello');
-        $this->assertInstanceOf(TString::class, $obj->merge(new TString(' world'), new TString(' TString')));
-        $this->assertEquals('hello world TString', $obj->get());
+        $merged = $obj->merge(new TString(' world'), new TString(' TString'));
+        $this->assertInstanceOf(TString::class, $merged);
+        $this->assertEquals('hello world TString', $merged->get());
     }
     
     public function testJoin() {
         $obj = new TString('hello');
-        $this->assertInstanceOf(TString::class, $obj->join(new TString(' '), new TString('world'), new TString('TString')));
-        $this->assertEquals('hello world TString', $obj->get());
+        $joined = $obj->join(new TString(' '), new TString('world'), new TString('TString'));
+        $this->assertInstanceOf(TString::class, $joined);
+        $this->assertEquals('hello world TString', $joined->get());
+    }
+    
+    public function testToFloat() {
+        $obj = new TString('R$ 1.998,77');
+        $number = $obj->toFloat(new TString(','));
+        
+        $this->assertInstanceOf(TFloat::class, $number);
+        $this->assertEquals(1998.77, $number->get());
+    }
+    
+    public function testToFloatNoSeparator() {
+        $obj = new TString('R$ 1.998');
+        $number = $obj->toFloat(new TString(','));
+        
+        $this->assertInstanceOf(TFloat::class, $number);
+        $this->assertEquals(1998.00, $number->get());
+    }
+    
+    public function testToInt() {
+        $obj = new TString('R$ 1.998,77');
+        $number = $obj->toInt();
+        
+        $this->assertInstanceOf(TInt::class, $number);
+        $this->assertEquals(199877, $number->get());
+    }
+    
+    public function testToNumberFloat() {
+        $obj = new TString('R$ 1.998,77');
+        $number = $obj->toNumber(new TString(','));
+        
+        $this->assertInstanceOf(TFloat::class, $number);
+        $this->assertEquals(1998.77, $number->get());
+    }
+    
+    public function testToNumberInt() {
+        $obj = new TString('R$ 1.998,77');
+        $number = $obj->toNumber();
+        
+        $this->assertInstanceOf(TInt::class, $number);
+        $this->assertEquals(199877, $number->get());
     }
 
 }

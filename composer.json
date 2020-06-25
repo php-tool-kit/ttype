@@ -1,7 +1,6 @@
 {
-    "name": "everton3x/repo-skel-php",
-    "description": "Modelo de repositório PHP",
-    "type": "template",
+    "name": "php-tool-kit/ttype",
+    "description": "Tipos de dados como orientação a objetos.",
     "require-dev": {
         "php-tool-kit/exceptlion": "dev-master",
         "phpunit/phpunit": "*",
@@ -24,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Namespace\\": "src"
+            "PTK\\TType\\": "src"
         }
     },
     "scripts": {

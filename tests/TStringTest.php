@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use PTK\Exceptlion\RegEx\InvalidPatternException;
 use PTK\TType\TDict;
 use PTK\TType\TFloat;
 use PTK\TType\TInt;
@@ -148,6 +149,85 @@ class TStringTest extends TestCase {
         
         $this->assertInstanceOf(TInt::class, $number);
         $this->assertEquals(199877, $number->get());
+    }
+    
+    public function testToUpperCase() {
+        $obj = new TString('hello world');
+        $str = $obj->uppercase();
+        
+        $this->assertInstanceOf(TString::class, $str);
+        $this->assertEquals('HELLO WORLD', $str->get());
+    }
+    
+    public function testToLowerCase() {
+        $obj = new TString('HELLO WORLD');
+        $str = $obj->lowercase();
+        
+        $this->assertInstanceOf(TString::class, $str);
+        $this->assertEquals('hello world', $str->get());
+    }
+    
+    public function testToUCFirst() {
+        $obj = new TString('hello world');
+        $str = $obj->ucfirst();
+        
+        $this->assertInstanceOf(TString::class, $str);
+        $this->assertEquals('Hello world', $str->get());
+    }
+    
+    public function testToCaseTitle() {
+        $obj = new TString('hello world');
+        $str = $obj->caseTitle();
+        
+        $this->assertInstanceOf(TString::class, $str);
+        $this->assertEquals('Hello World', $str->get());
+    }
+    
+    public function testSubstring() {
+        $obj = new TString('hello world');
+        $str = $obj->substring(new TInt(3), new TInt(2));
+        
+        $this->assertInstanceOf(TString::class, $str);
+        $this->assertEquals('lo', $str->get());
+    }
+    
+    public function testMatch() {
+        $obj = new TString('hello world TString');
+        $matches = $obj->match(new TString('/hello|TString|foo/i'));
+        
+        $this->assertInstanceOf(TList::class, $matches);
+        $this->assertEquals([[
+            ['hello', 0],
+            ['TString', 12]
+        ]], $matches->toArray());
+    }
+    
+    public function testMatchEmpty() {
+        $obj = new TString('hello world TString');
+        $matches = $obj->match(new TString('/foo/i'));
+        
+        $this->assertInstanceOf(TList::class, $matches);
+        $this->assertEquals([[]], $matches->toArray());
+    }
+    
+    public function testMatchInvalidPattern() {
+        $obj = new TString('hello world TString');
+        $this->expectException(InvalidPatternException::class);
+        $matches = $obj->match(new TString('/hello'));
+    }
+    
+    public function testReplace() {
+        $obj = new TString('foo world');
+        $match = $obj->replace(new TString('/foo/'), new TString('hello'));
+        
+        $this->assertInstanceOf(TString::class, $match);
+        $this->assertEquals('hello world', $match->get());
+    }
+    
+    public function testReplaceInvalidPattern() {
+        $obj = new TString('foo world');
+        $this->expectException(InvalidPatternException::class);
+        $matches = $obj->replace(new TString('/foo'), new TString('hello'));
     }
 
 }

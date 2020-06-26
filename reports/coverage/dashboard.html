@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /mnt/c/Users/Everton/Documents/ptk/ttype/src</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="_css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="_css/nv.d3.min.css" rel="stylesheet" type="text/css">
+  <link href="_css/style.css" rel="stylesheet" type="text/css">
+  <link href="_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="index.html">/mnt/c/Users/Everton/Documents/ptk/ttype/src</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="TDict.php.html#38">PTK\TType\TDict</a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="TList.php.html#38">PTK\TType\TList</a></td><td class="text-right">70%</td></tr>
+       <tr><td><a href="TFloat.php.html#34">PTK\TType\TFloat</a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="TInt.php.html#34">PTK\TType\TInt</a></td><td class="text-right">75%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="TList.php.html#38">PTK\TType\TList</a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="TDict.php.html#38">PTK\TType\TDict</a></td><td class="text-right">5</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="TFloat.php.html#46"><abbr title="PTK\TType\TFloat::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TInt.php.html#46"><abbr title="PTK\TType\TInt::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TDict.php.html#46"><abbr title="PTK\TType\TDict::__construct">__construct</abbr></a></td><td class="text-right">60%</td></tr>
+       <tr><td><a href="TList.php.html#40"><abbr title="PTK\TType\TList::__construct">__construct</abbr></a></td><td class="text-right">60%</td></tr>
+       <tr><td><a href="TDict.php.html#57"><abbr title="PTK\TType\TDict::checkKey">checkKey</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="TList.php.html#51"><abbr title="PTK\TType\TList::checkKey">checkKey</abbr></a></td><td class="text-right">75%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="TDict.php.html#57"><abbr title="PTK\TType\TDict::checkKey">checkKey</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="TList.php.html#51"><abbr title="PTK\TType\TList::checkKey">checkKey</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="TDict.php.html#46"><abbr title="PTK\TType\TDict::__construct">__construct</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="TList.php.html#40"><abbr title="PTK\TType\TList::__construct">__construct</abbr></a></td><td class="text-right">2</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 8.0.2</a> using <a href="https://secure.php.net/" target="_top">PHP 7.4.3</a> with <a href="https://xdebug.org/">Xdebug 2.9.2</a> and <a href="https://phpunit.de/">PHPUnit 9.2.5</a> at Fri Jun 26 14:32:09 UTC 2020.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="_js/jquery.min.js" type="text/javascript"></script>
+  <script src="_js/d3.min.js" type="text/javascript"></script>
+  <script src="_js/nv.d3.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,1,3,0,1,0], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([2,0,0,0,0,0,0,2,2,0,1,24], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[66.66666666666666,5,"<a href=\"TDict.php.html#38\">PTK\\TType\\TDict<\/a>"],[75,3,"<a href=\"TFloat.php.html#34\">PTK\\TType\\TFloat<\/a>"],[75,3,"<a href=\"TInt.php.html#34\">PTK\\TType\\TInt<\/a>"],[70,6,"<a href=\"TList.php.html#38\">PTK\\TType\\TList<\/a>"],[97.87234042553192,34,"<a href=\"TString.php.html#43\">PTK\\TType\\TString<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[60,2,"<a href=\"TDict.php.html#46\">PTK\\TType\\TDict::__construct<\/a>"],[75,3,"<a href=\"TDict.php.html#57\">PTK\\TType\\TDict::checkKey<\/a>"],[100,1,"<a href=\"TFloat.php.html#38\">PTK\\TType\\TFloat::__construct<\/a>"],[100,1,"<a href=\"TFloat.php.html#42\">PTK\\TType\\TFloat::get<\/a>"],[0,1,"<a href=\"TFloat.php.html#46\">PTK\\TType\\TFloat::__toString<\/a>"],[100,1,"<a href=\"TInt.php.html#38\">PTK\\TType\\TInt::__construct<\/a>"],[100,1,"<a href=\"TInt.php.html#42\">PTK\\TType\\TInt::get<\/a>"],[0,1,"<a href=\"TInt.php.html#46\">PTK\\TType\\TInt::__toString<\/a>"],[60,2,"<a href=\"TList.php.html#40\">PTK\\TType\\TList::__construct<\/a>"],[75,3,"<a href=\"TList.php.html#51\">PTK\\TType\\TList::checkKey<\/a>"],[100,1,"<a href=\"TList.php.html#60\">PTK\\TType\\TList::toArray<\/a>"],[100,1,"<a href=\"TString.php.html#55\">PTK\\TType\\TString::__construct<\/a>"],[100,1,"<a href=\"TString.php.html#64\">PTK\\TType\\TString::get<\/a>"],[100,1,"<a href=\"TString.php.html#73\">PTK\\TType\\TString::__toString<\/a>"],[100,1,"<a href=\"TString.php.html#83\">PTK\\TType\\TString::length<\/a>"],[100,1,"<a href=\"TString.php.html#92\">PTK\\TType\\TString::size<\/a>"],[100,2,"<a href=\"TString.php.html#106\">PTK\\TType\\TString::template<\/a>"],[100,1,"<a href=\"TString.php.html#122\">PTK\\TType\\TString::format<\/a>"],[100,1,"<a href=\"TString.php.html#133\">PTK\\TType\\TString::split<\/a>"],[100,1,"<a href=\"TString.php.html#144\">PTK\\TType\\TString::merge<\/a>"],[100,1,"<a href=\"TString.php.html#157\">PTK\\TType\\TString::join<\/a>"],[90.9090909090909,7,"<a href=\"TString.php.html#171\">PTK\\TType\\TString::toFloat<\/a>"],[100,3,"<a href=\"TString.php.html#198\">PTK\\TType\\TString::toInt<\/a>"],[100,3,"<a href=\"TString.php.html#217\">PTK\\TType\\TString::toNumber<\/a>"],[100,1,"<a href=\"TString.php.html#232\">PTK\\TType\\TString::uppercase<\/a>"],[100,1,"<a href=\"TString.php.html#243\">PTK\\TType\\TString::lowercase<\/a>"],[100,1,"<a href=\"TString.php.html#254\">PTK\\TType\\TString::ucfirst<\/a>"],[100,1,"<a href=\"TString.php.html#265\">PTK\\TType\\TString::caseTitle<\/a>"],[100,1,"<a href=\"TString.php.html#278\">PTK\\TType\\TString::substring<\/a>"],[100,3,"<a href=\"TString.php.html#291\">PTK\\TType\\TString::match<\/a>"],[100,2,"<a href=\"TString.php.html#306\">PTK\\TType\\TString::replace<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>

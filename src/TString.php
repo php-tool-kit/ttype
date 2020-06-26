@@ -26,7 +26,14 @@
 
 namespace PTK\TType;
 
+use PTK\Exceptlion\RegEx\InvalidPatternException;
 use PTK\Exceptlion\Value\InvalidValueException;
+use const MB_CASE_TITLE;
+use function mb_convert_case;
+use function mb_str_split;
+use function mb_strlen;
+use function mb_strtolower;
+use function mb_strtoupper;
 
 /**
  * TString: string
@@ -71,10 +78,10 @@ class TString implements TScalar {
      * Retorna o tamanho de uma string.
      * 
      * @return int
-     * @link https://www.php.net/manual/pt_BR/ref.strings.php strlen()
+     * @link https://www.php.net/manual/pt_BR/function.mb-strlen.php mb_strlen()
      */
     public function length(): int {
-        return strlen($this->get());
+        return mb_strlen($this->get());
     }
     
     /**
@@ -121,11 +128,11 @@ class TString implements TScalar {
      * 
      * @param int $chunk
      * @return TList
-     * @link https://www.php.net/manual/pt_BR/function.str-split.php str_split()
+     * @link https://www.php.net/manual/pt_BR/function.mb-str-split.php mb_str_split()
      */
     public function split(int $chunk = 1): TList
     {
-        return new TList(str_split($this->get(), $chunk));
+        return new TList(mb_str_split($this->get(), $chunk));
     }
     
     /**
@@ -152,28 +159,42 @@ class TString implements TScalar {
         return new TString(\join($glue, [$this->get(), ...$pieces]));
     }
     
+    /**
+     * Transformação para float.
+     * 
+     * @param TString $decimalSeparator O separador de decimal. 
+     * Somente ponto ou vírgula.
+     * 
+     * @return TFloat
+     * @throws InvalidValueException
+     */
     public function toFloat(TString $decimalSeparator): TFloat {
         
         if($decimalSeparator->get() !== '.' && $decimalSeparator->get() !== ','){
             throw new InvalidValueException($decimalSeparator, '.|,');
         }
         
-        $decimalSeparatorFound = false;
+        $decSepFound = false;
         $number = '';
         foreach ($this->split() as $chunk){
             if(preg_match('/[0-9]/', $chunk) === 1){
                 $number .= $chunk;
             }
             
-            if($chunk === $decimalSeparator->get() && $decimalSeparatorFound === false){
+            if($chunk === $decimalSeparator->get() && $decSepFound === false){
                 $number .= '.';
-                $decimalSeparatorFound = true;
+                $decSepFound = true;
             }
         }
         
         return new TFloat((float) $number);
     }
     
+    /**
+     * Transformação para inteiro.
+     * 
+     * @return TInt
+     */
     public function toInt(): TInt{
         
         $number = '';
@@ -186,6 +207,13 @@ class TString implements TScalar {
         return new TInt((int) $number);
     }
     
+    /**
+     * Transformação para número. Se o separador de decimal for fornecido, o 
+     * retorno será float, caso contrário, inteiro.
+     * 
+     * @param TString|null $decimalSeparator
+     * @return TNumber
+     */
     public function toNumber(?TString $decimalSeparator = null): TNumber{
         
         if(is_null($decimalSeparator)){
@@ -193,5 +221,106 @@ class TString implements TScalar {
         }
         
         return $this->toFloat($decimalSeparator);
+    }
+    
+    /**
+     * Transforma para letras maiúsculas.
+     * 
+     * @return TString
+     * @link https://www.php.net/manual/en/function.mb-strtoupper.php mb_strtoupper()
+     */
+    public function uppercase(): TString
+    {
+        return new TString(mb_strtoupper($this->get()));
+    }
+    
+    /**
+     * Transforma para mínusculas.
+     * 
+     * @return TString
+     * @link https://www.php.net/manual/en/function.mb-strtolower.php mb_strtolower()
+     */
+    public function lowercase(): TString
+    {
+        return new TString(mb_strtolower($this->get()));
+    }
+    
+    /**
+     * Trasnforma a primeira letra da string em maiúscula.
+     * 
+     * @return TString
+     * @link https://www.php.net/manual/en/function.ucfirst.php ucfirst()
+     */
+    public function ucfirst(): TString
+    {
+        return new TString(ucfirst($this->get()));
+    }
+    
+    /**
+     * Transforma todas as primeiras letras em maiúsculas.
+     * 
+     * @return TString
+     * @link https://www.php.net/manual/pt_BR/function.mb-convert-case.php mb_convert_case()
+     */
+    public function caseTitle(): TString
+    {
+        return new TString(mb_convert_case($this->get(), MB_CASE_TITLE));
+    }
+    
+    /**
+     * Retorna uma parte da string.
+     * 
+     * @param TInt $start
+     * @param TInt $length
+     * @return TString
+     * @link https://www.php.net/manual/pt_BR/function.mb-strcut.php mb_strcut()
+     */
+    public function substring(TInt $start, TInt $length): TString
+    {
+        return new TString(mb_strcut($this->get(), $start->get(), $length->get()));
+    }
+    
+    /**
+     * Retorna todas as correspondências encontradas de acordo com o padrão.
+     * 
+     * @param \PTK\TType\TString $pattern
+     * @return \PTK\TType\TList
+     * @throws InvalidPatternException
+     * @link https://www.php.net/manual/en/function.preg-match-all.php preg_match_all()
+     */
+    public function match(TString $pattern): TList
+    {
+        $matches = [];
+        
+        //suprimido erros para fazer o código de disparar exceção funcionar com PHPUnit
+        //se não suprimir, ele lança um erro e não lança a exceção.
+        $result = @preg_match_all($pattern->get(), $this->get(), $matches, PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL);
+        
+        if($result === false || preg_last_error() !== PREG_NO_ERROR){
+            throw new InvalidPatternException($pattern);
+        }
+        
+        return new TList($matches);
+    }
+    
+    /**
+     * Substitui no string de acordo com um pattern
+     * 
+     * @param \PTK\TType\TString $pattern
+     * @param \PTK\TType\TString $replecement
+     * @return \PTK\TType\TString
+     * @throws InvalidPatternException
+     */
+    public function replace(TString $pattern, \PTK\TType\TString $replecement): TString
+    {
+        //suprimido erros para fazer o código de disparar exceção funcionar com PHPUnit
+        //se não suprimir, ele lança um erro e não lança a exceção.
+        $match = @preg_replace($pattern->get(), $replecement->get(), $this->get());
+        
+        if(is_null($match)){
+            throw new InvalidPatternException($pattern->get());
+        }
+        
+        return new TString($match);
     }
 }

@@ -37,12 +37,6 @@ use PTK\Exceptlion\Type\InvalidTypeException;
  */
 class TList extends ArrayObject implements TMixed {
     
-    /**
-     *
-     * @var array<mixed> Os dados da lista.
-     */
-    protected array $data = [];
-    
     public function __construct(array $items = [])
     {
         try{
@@ -61,5 +55,10 @@ class TList extends ArrayObject implements TMixed {
                 throw new InvalidTypeException(gettype($k), ['int']);
             }
         }
+    }
+    
+    public function toArray(): array
+    {
+        return $this->getArrayCopy();
     }
 }

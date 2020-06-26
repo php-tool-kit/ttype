@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use PTK\Exceptlion\RegEx\InvalidPatternException;
+use PTK\Exceptlion\Value\InvalidValueException;
 use PTK\TType\TDict;
 use PTK\TType\TFloat;
 use PTK\TType\TInt;
@@ -117,6 +118,12 @@ class TStringTest extends TestCase {
         
         $this->assertInstanceOf(TFloat::class, $number);
         $this->assertEquals(1998.77, $number->get());
+    }
+    
+    public function testToFloatInvalidDecimalSeparator() {
+        $obj = new TString('R$ 1.998,77');
+        $this->expectException(InvalidValueException::class);
+        $number = $obj->toFloat(new TString('!'));
     }
     
     public function testToFloatNoSeparator() {

@@ -35,7 +35,8 @@ use PTK\Exceptlion\Type\InvalidTypeException;
  *
  * @author Everton
  */
-class TDict extends ArrayObject implements TMixed {
+class TDict extends ArrayObject implements TMixed
+{
     
     /**
      *
@@ -45,7 +46,7 @@ class TDict extends ArrayObject implements TMixed {
     
     public function __construct(array $items = [])
     {
-        try{
+        try {
             $this->checkKey(array_keys($items));
         } catch (Exception $ex) {
             throw $ex;
@@ -54,10 +55,11 @@ class TDict extends ArrayObject implements TMixed {
         parent::__construct($items);
     }
     
-    protected function checkKey(array $keys): void {
+    protected function checkKey(array $keys): void
+    {
         
-        foreach ($keys as $k){
-            if(is_string($k) === false){
+        foreach ($keys as $k) {
+            if (is_string($k) === false) {
                 throw new InvalidTypeException(gettype($k), ['string']);
             }
         }

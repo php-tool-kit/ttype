@@ -28,9 +28,14 @@ namespace PTK\TType;
 
 /**
  * Interface para números.
- * 
+ *
  * @author Everton
  */
-interface TNumber extends TScalar {
-    //put your code here
+interface TNumber extends TScalar
+{
+    public function format(
+        ?TInt $decimals = null,
+        ?TString $decimalSeparator = null,
+        ?TString $thousandsSeparator = null
+    ): TString;
 }

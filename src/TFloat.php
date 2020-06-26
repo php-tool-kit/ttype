@@ -31,19 +31,53 @@ namespace PTK\TType;
  *
  * @author Everton
  */
-class TFloat implements TNumber {
+class TFloat implements TNumber
+{
     
     protected float $number = 0.0;
     
-    public function __construct(float $number) {
+    public function __construct(float $number)
+    {
         $this->number = $number;
     }
     
-    public function get(): float {
+    public function get(): float
+    {
         return $this->number;
     }
     
-    public function __toString(): string {
+    public function __toString(): string
+    {
         return (string) $this->get();
+    }
+
+    public function format(
+        ?TInt $decimals = null,
+        ?TString $decimalSeparator = null,
+        ?TString $thousandsSeparator = null
+    ): TString {
+        $number = $this->get();
+        
+        if (is_null($precision)) {
+            $precision = $this->getPrecision();
+        }
+        
+        if (is_null($decimalSeparator)) {
+            $localenv = localeconv();
+            $decimalSeparator = $localenv['decimal_point'];
+        }
+        
+        if (is_null($thousandsSeparator)) {
+            $localenv = localeconv();
+            $decimalSeparator = $localenv['thousands_sep'];
+        }
+        
+        return new TString(number_format($number, $precision, $decimalSeparator, $thousandsSeparator));
+    }
+    
+    public function getPrecision(): TInt
+    {
+        $tmp = explode('.', $this->get());
+        return new TInt(count($tmp[1]));
     }
 }

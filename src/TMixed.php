@@ -28,10 +28,11 @@ namespace PTK\TType;
 
 /**
  * Abstração para qualquer tipo de dados.
- * 
+ *
  * Todas as classes TType devem implementar TMixed.
  * @author Everton
  */
-interface TMixed {
+interface TMixed
+{
     
 }

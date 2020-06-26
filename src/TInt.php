@@ -23,7 +23,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace PTK\TType;
 
 /**
@@ -31,19 +30,87 @@ namespace PTK\TType;
  *
  * @author Everton
  */
-class TInt implements TNumber {
-    
+class TInt implements TNumber
+{
+    /**
+     *
+     * @var int O número.
+     */
     protected int $number = 0;
-    
-    public function __construct(int $number) {
+/**
+     *
+     * @param int $number
+     */
+    public function __construct(int $number = 0)
+    {
         $this->number = $number;
     }
-    
-    public function get(): int {
+
+    /**
+     * Retorna o número.
+     *
+     * @return int
+     */
+    public function get(): int
+    {
         return $this->number;
     }
-    
-    public function __toString(): string {
+
+    /**
+     * Retorna uma representação string do número.
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
         return (string) $this->get();
+    }
+
+    /**
+     * Formata o número.
+     *
+     * @param TInt|null $precision
+     * @param TString|null $decimalSeparator
+     * @param TString|null $thousandsSeparator
+     * @return TString
+     */
+    public function format(
+        ?TInt $precision = null,
+        ?TString $decimalSeparator = null,
+        ?TString $thousandsSeparator = null
+    ): TString {
+        $number = $this->get();
+        if (is_null($precision)) {
+            $precision = new TInt(0);
+        }
+
+        if (is_null($decimalSeparator)) {
+            $localenv = localeconv();
+            $decimalSeparator = new TString($localenv['decimal_point']);
+        }
+
+        if (is_null($thousandsSeparator)) {
+            $localenv = localeconv();
+            $thousandsSeparator = new TString($localenv['thousands_sep']);
+        }
+
+        return new TString(
+            number_format(
+                $number,
+                $precision->get(),
+                $decimalSeparator->get(),
+                $thousandsSeparator->get()
+            )
+        );
+    }
+
+    /**
+     * Retorna a precisão.
+     *
+     * @return TInt
+     */
+    public function getPrecision(): TInt
+    {
+        return new TInt(0);
     }
 }

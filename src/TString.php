@@ -28,19 +28,22 @@ namespace PTK\TType;
 
 use PTK\Exceptlion\RegEx\InvalidPatternException;
 use PTK\Exceptlion\Value\InvalidValueException;
-use const MB_CASE_TITLE;
+
 use function mb_convert_case;
 use function mb_str_split;
 use function mb_strlen;
 use function mb_strtolower;
 use function mb_strtoupper;
 
+use const MB_CASE_TITLE;
+
 /**
  * TString: string
  *
  * @author Everton
  */
-class TString implements TScalar {
+class TString implements TScalar
+{
 
     /**
      *
@@ -49,38 +52,42 @@ class TString implements TScalar {
     protected string $data = '';
 
     /**
-     * 
+     *
      * @param string $data Uma string. Se omitido, uma string vazia será usada.
      */
-    public function __construct(string $data = '') {
+    public function __construct(string $data = '')
+    {
         $this->data = $data;
     }
 
     /**
      * Devolve a string.
-     * 
+     *
      * @return string
      */
-    public function get(): string {
+    public function get(): string
+    {
         return $this->data;
     }
 
     /**
      * Devolve a string.
-     * 
+     *
      * @return string
      */
-    public function __toString(): string {
+    public function __toString(): string
+    {
         return $this->get();
     }
     
     /**
      * Retorna o tamanho de uma string.
-     * 
+     *
      * @return int
      * @link https://www.php.net/manual/pt_BR/function.mb-strlen.php mb_strlen()
      */
-    public function length(): int {
+    public function length(): int
+    {
         return mb_strlen($this->get());
     }
     
@@ -89,43 +96,46 @@ class TString implements TScalar {
      * @return int
      * @see TString::length()
      */
-    public function size(): int {
+    public function size(): int
+    {
         return $this->length();
     }
     
     /**
-     * Mescla dados com a string, substituindo qualquer {key} pelo valor em 
+     * Mescla dados com a string, substituindo qualquer {key} pelo valor em
      * TDict com chave key.
-     * 
+     *
      * @param TDict $data
      * @return TString
      * @see TString::format()
-     * 
+     *
      * @todo Alterar a substiuição para suportar caractere de escape para { e }
      */
-    public function template(TDict $data): TString {
+    public function template(TDict $data): TString
+    {
         $str = $this->get();
-        foreach ($data as $key => $value){
-            $str = str_replace('{'.$key.'}', $value, $str);
+        foreach ($data as $key => $value) {
+            $str = str_replace('{' . $key . '}', $value, $str);
         }
         return new TString($str);
     }
     
     /**
      * Mescla dados à string.
-     * 
+     *
      * @param TList $data
      * @return TString
      * @link https://www.php.net/manual/en/function.sprintf.php sprintf()
      * @see TString::template()
      */
-    public function format(TList $data): TString {
+    public function format(TList $data): TString
+    {
         return new TString(sprintf($this->get(), ...$data));
     }
     
     /**
      * Divide a string em pedaçõs.
-     * 
+     *
      * @param int $chunk
      * @return TList
      * @link https://www.php.net/manual/pt_BR/function.mb-str-split.php mb_str_split()
@@ -137,7 +147,7 @@ class TString implements TScalar {
     
     /**
      * Adiciona várias TString à string atual.
-     * 
+     *
      * @param TString $pieces
      * @return TString
      */
@@ -149,7 +159,7 @@ class TString implements TScalar {
     
     /**
      * Adiciona várias TString à atual usando um separador.
-     * 
+     *
      * @param TString $glue
      * @param TString $pieces
      * @return TString
@@ -161,27 +171,28 @@ class TString implements TScalar {
     
     /**
      * Transformação para float.
-     * 
-     * @param TString $decimalSeparator O separador de decimal. 
+     *
+     * @param TString $decimalSeparator O separador de decimal.
      * Somente ponto ou vírgula.
-     * 
+     *
      * @return TFloat
      * @throws InvalidValueException
      */
-    public function toFloat(TString $decimalSeparator): TFloat {
+    public function toFloat(TString $decimalSeparator): TFloat
+    {
         
-        if($decimalSeparator->get() !== '.' && $decimalSeparator->get() !== ','){
+        if ($decimalSeparator->get() !== '.' && $decimalSeparator->get() !== ',') {
             throw new InvalidValueException($decimalSeparator, '.|,');
         }
         
         $decSepFound = false;
         $number = '';
-        foreach ($this->split() as $chunk){
-            if(preg_match('/[0-9]/', $chunk) === 1){
+        foreach ($this->split() as $chunk) {
+            if (preg_match('/[0-9]/', $chunk) === 1) {
                 $number .= $chunk;
             }
             
-            if($chunk === $decimalSeparator->get() && $decSepFound === false){
+            if ($chunk === $decimalSeparator->get() && $decSepFound === false) {
                 $number .= '.';
                 $decSepFound = true;
             }
@@ -192,14 +203,15 @@ class TString implements TScalar {
     
     /**
      * Transformação para inteiro.
-     * 
+     *
      * @return TInt
      */
-    public function toInt(): TInt{
+    public function toInt(): TInt
+    {
         
         $number = '';
-        foreach ($this->split() as $chunk){
-            if(preg_match('/[0-9]/', $chunk) === 1){
+        foreach ($this->split() as $chunk) {
+            if (preg_match('/[0-9]/', $chunk) === 1) {
                 $number .= $chunk;
             }
         }
@@ -208,15 +220,16 @@ class TString implements TScalar {
     }
     
     /**
-     * Transformação para número. Se o separador de decimal for fornecido, o 
+     * Transformação para número. Se o separador de decimal for fornecido, o
      * retorno será float, caso contrário, inteiro.
-     * 
+     *
      * @param TString|null $decimalSeparator
      * @return TNumber
      */
-    public function toNumber(?TString $decimalSeparator = null): TNumber{
+    public function toNumber(?TString $decimalSeparator = null): TNumber
+    {
         
-        if(is_null($decimalSeparator)){
+        if (is_null($decimalSeparator)) {
             return $this->toInt();
         }
         
@@ -225,7 +238,7 @@ class TString implements TScalar {
     
     /**
      * Transforma para letras maiúsculas.
-     * 
+     *
      * @return TString
      * @link https://www.php.net/manual/en/function.mb-strtoupper.php mb_strtoupper()
      */
@@ -236,7 +249,7 @@ class TString implements TScalar {
     
     /**
      * Transforma para mínusculas.
-     * 
+     *
      * @return TString
      * @link https://www.php.net/manual/en/function.mb-strtolower.php mb_strtolower()
      */
@@ -247,7 +260,7 @@ class TString implements TScalar {
     
     /**
      * Trasnforma a primeira letra da string em maiúscula.
-     * 
+     *
      * @return TString
      * @link https://www.php.net/manual/en/function.ucfirst.php ucfirst()
      */
@@ -258,7 +271,7 @@ class TString implements TScalar {
     
     /**
      * Transforma todas as primeiras letras em maiúsculas.
-     * 
+     *
      * @return TString
      * @link https://www.php.net/manual/pt_BR/function.mb-convert-case.php mb_convert_case()
      */
@@ -269,7 +282,7 @@ class TString implements TScalar {
     
     /**
      * Retorna uma parte da string.
-     * 
+     *
      * @param TInt $start
      * @param TInt $length
      * @return TString
@@ -282,7 +295,7 @@ class TString implements TScalar {
     
     /**
      * Retorna todas as correspondências encontradas de acordo com o padrão.
-     * 
+     *
      * @param \PTK\TType\TString $pattern
      * @return \PTK\TType\TList
      * @throws InvalidPatternException
@@ -294,9 +307,14 @@ class TString implements TScalar {
         
         //suprimido erros para fazer o código de disparar exceção funcionar com PHPUnit
         //se não suprimir, ele lança um erro e não lança a exceção.
-        $result = @preg_match_all($pattern->get(), $this->get(), $matches, PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL);
+        $result = @preg_match_all(
+            $pattern->get(),
+            $this->get(),
+            $matches,
+            PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL
+        );
         
-        if($result === false || preg_last_error() !== PREG_NO_ERROR){
+        if ($result === false || preg_last_error() !== PREG_NO_ERROR) {
             throw new InvalidPatternException($pattern);
         }
         
@@ -305,7 +323,7 @@ class TString implements TScalar {
     
     /**
      * Substitui no string de acordo com um pattern
-     * 
+     *
      * @param \PTK\TType\TString $pattern
      * @param \PTK\TType\TString $replecement
      * @return \PTK\TType\TString
@@ -317,7 +335,7 @@ class TString implements TScalar {
         //se não suprimir, ele lança um erro e não lança a exceção.
         $match = @preg_replace($pattern->get(), $replecement->get(), $this->get());
         
-        if(is_null($match)){
+        if (is_null($match)) {
             throw new InvalidPatternException($pattern->get());
         }
         

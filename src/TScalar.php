@@ -28,9 +28,11 @@ namespace PTK\TType;
 
 /**
  * Representa os tipos de dados simples, como string e números.
- * 
+ *
  * @author Everton
  */
-interface TScalar extends TMixed {
+interface TScalar extends TMixed
+{
     
+    public function __toString(): string;
 }
